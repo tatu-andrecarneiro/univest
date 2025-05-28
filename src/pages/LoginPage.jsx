@@ -1,0 +1,129 @@
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { LogIn, UserPlus, Chrome, Computer as Microsoft } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+
+const LoginPage = ({ logoUrl }) => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleAnyLogin = (e, type = "form") => {
+    e.preventDefault(); 
+    let title = "Login em progresso...";
+    let description = "Redirecionando para a tela inicial.";
+
+    if (type === "Google") {
+      title = "Login com Google";
+      description = "Autenticando com sua conta Google...";
+    } else if (type === "Microsoft") {
+      title = "Login com Microsoft";
+      description = "Autenticando com sua conta Microsoft...";
+    } else if (type === "create") {
+      title = "Criando nova conta...";
+      description = "Redirecionando para a tela inicial.";
+    }
+    
+    toast({
+      title: title,
+      description: description,
+    });
+    setTimeout(() => navigate('/home'), 1500);
+  };
+
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="flex flex-col items-center justify-center min-h-screen py-12 bg-gradient-to-br from-background to-teal-deep/20 px-4"
+    >
+      <motion.div 
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.1, duration: 0.7, type: "spring", stiffness:100 }}
+        className="mb-10"
+      >
+        <img src={logoUrl} alt="UniVest Logo" className="h-32 w-32 rounded-2xl -webkit-filter: drop-shadow(5px 5px 5px #00CED1);
+  filter: drop-shadow(5px 5px 5px #00CED1);" />
+      </motion.div>
+
+      <Card className="w-full max-w-md shadow-2xl animate-slide-in-up rounded-xl">
+        <CardHeader className="space-y-1 text-center">
+          <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }}>
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-teal-light to-teal-dark text-transparent bg-clip-text">Bem-vindo ao UniVest</CardTitle>
+          </motion.div>
+          <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}>
+            <CardDescription className="text-muted-foreground">Faça login para gerenciar seus investimentos</CardDescription>
+          </motion.div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <form onSubmit={(e) => handleAnyLogin(e, "form")} className="space-y-4">
+            <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.4, duration: 0.5 }}>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="seu@email.com" required className="rounded-lg bg-input/50 border-teal-dark/50 focus:border-teal-light" />
+              </div>
+            </motion.div>
+            <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.5, duration: 0.5 }}>
+              <div className="space-y-2">
+                <Label htmlFor="password">Senha</Label>
+                <Input id="password" type="password" placeholder="********" required className="rounded-lg bg-input/50 border-teal-dark/50 focus:border-teal-light" />
+              </div>
+            </motion.div>
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }}>
+              <Button type="submit" className="w-full rounded-lg bg-gradient-to-r from-teal-dark to-teal-deep hover:from-teal-deep hover:to-teal-dark transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg shadow-teal-dark/30">
+                <LogIn className="mr-2 h-5 w-5" /> Entrar
+              </Button>
+            </motion.div>
+          </form>
+          
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="relative"
+          >
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-teal-dark/70" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">Ou continue com</span>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }} 
+            animate={{ y: 0, opacity: 1 }} 
+            transition={{ delay: 0.8, duration: 0.5 }}
+            className="grid grid-cols-2 gap-4"
+          >
+            <Button variant="outline" className="w-full rounded-lg border-teal-dark/70 hover:bg-teal-dark/10 text-foreground" onClick={(e) => handleAnyLogin(e, 'Google')}>
+              <Chrome className="mr-2 h-5 w-5 text-[#4285F4]" /> Google
+            </Button>
+            <Button variant="outline" className="w-full rounded-lg border-teal-dark/70 hover:bg-teal-dark/10 text-foreground" onClick={(e) => handleAnyLogin(e, 'Microsoft')}>
+              <Microsoft className="mr-2 h-5 w-5 text-[#00A4EF]" /> Microsoft
+            </Button>
+          </motion.div>
+        </CardContent>
+        <CardFooter className="flex flex-col items-center space-y-2 pb-6">
+          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.9, duration: 0.5 }}>
+            <p className="text-sm text-muted-foreground">
+              Não tem uma conta?{' '}
+              <Button variant="link" onClick={(e) => handleAnyLogin(e, 'create')} className="text-teal-light hover:text-teal-dark p-0 h-auto font-semibold">
+                  Crie uma agora <UserPlus className="ml-1 h-4 w-4" />
+              </Button>
+            </p>
+          </motion.div>
+        </CardFooter>
+      </Card>
+    </motion.div>
+  );
+};
+
+export default LoginPage;
