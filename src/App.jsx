@@ -9,7 +9,7 @@ import OpenFinancePage from '@/pages/OpenFinancePage';
 import SettingsPage from '@/pages/SettingsPage';
 import DashboardPage from '@/pages/DashboardPage';
 
-const LOGO_URL = "../img/logo-removebg-preview.png";
+const LOGO_URL = "../img/logo-removebg-preview.svg";
 
 function App() {
   const location = useLocation();
