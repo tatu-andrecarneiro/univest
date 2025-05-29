@@ -5,10 +5,10 @@ import { Settings, BarChart2, Briefcase, Menu, X, LogOut, Home as HomeIcon } fro
 import { Button } from '@/components/ui/button';
 
 const navItems = [
-  { path: '/home', label: 'Início', icon: HomeIcon }, // Tela 3
-  { path: '/open-finance', label: 'Open Finance', icon: Briefcase }, // Tela 4
-  { path: '/dashboard', label: 'Dashboard', icon: BarChart2 }, // Tela 6 (conforme dashboard)
-  { path: '/settings', label: 'Configurações', icon: Settings }, // Tela 5
+  { path: '/home', label: 'Início', icon: HomeIcon },
+  { path: '/open-finance', label: 'Open Finance', icon: Briefcase },
+  { path: '/dashboard', label: 'Dashboard', icon: BarChart2 },
+  { path: '/settings', label: 'Configurações', icon: Settings },
 ];
 
 const Layout = ({ children, logoUrl }) => {
@@ -16,7 +16,7 @@ const Layout = ({ children, logoUrl }) => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const isAuthPage = location.pathname === '/' || location.pathname === '/create-account';
+  const isLoginPage = location.pathname === '/';
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -34,7 +34,7 @@ const Layout = ({ children, logoUrl }) => {
     closed: { opacity: 0, pointerEvents: "none" },
   };
 
-  if (isAuthPage) {
+  if (isLoginPage) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <main className="flex-1">
@@ -179,7 +179,8 @@ const Layout = ({ children, logoUrl }) => {
         </main>
       </div>
 
-      {!isAuthPage && (
+      {/* Footer is not displayed on login page */}
+      {!isLoginPage && (
         <footer className="py-6 md:px-8 md:py-0 border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex flex-col items-center justify-between gap-4 md:h-20 md:flex-row">
             <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">

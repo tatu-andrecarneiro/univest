@@ -7,31 +7,32 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShieldCheck, FileText } from 'lucide-react';
+import { ShieldCheck, FileText, icons } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
-const OpenFinancePage = () => {
+const CriarConta = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [docType, setDocType] = useState('CPF');
-  const [docValue, setDocValue] = useState('');
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState('');
+  const [isBiometria, setIsBiometria] = useState(false);
 
-  const handleConnect = (e) => {
+  const handleCriarConta = (e) => {
     e.preventDefault();
-    if (!isAuthorized) {
+    if (!isBiometria) {
       toast({
+        icons: "target",
         variant: "destructive",
-        title: "Autorização Necessária",
-        description: "Você precisa autorizar o acesso aos seus dados.",
+        title: "Biometria",
+        description: "Use sua impressao digital para continuar",
       });
       return;
     }
-    if (!docValue) {
+    if (!email) {
       toast({
         variant: "destructive",
         title: "Campo Obrigatório",
-        description: `Por favor, informe seu ${docType}.`,
+        description: `Por favor, informe seu Email.`,
       });
       return;
     }
@@ -60,16 +61,28 @@ const OpenFinancePage = () => {
           </motion.div>
         </CardHeader>
         <CardContent className="space-y-6">
-          <motion.form onSubmit={handleConnect} className="space-y-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}>
+          <motion.form onSubmit={handleCriarConta} className="space-y-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}>
          
             <div>
-              <Label htmlFor="document">{docType}</Label>
+              <Label htmlFor="document">E-mail</Label>
               <Input 
                 id="document" 
                 type="text" 
-                placeholder={`Digite seu ${docType}`} 
-                value={docValue}
-                onChange={(e) => setDocValue(e.target.value)}
+                placeholder={`Digite seu Email`} 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required 
+                className="rounded-lg mt-1"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="document">Senha</Label>
+              <Input 
+                id="document" 
+                type="password"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
                 required 
                 className="rounded-lg mt-1"
               />
@@ -100,20 +113,20 @@ const OpenFinancePage = () => {
             >
               <Checkbox 
                 id="terms" 
-                checked={isAuthorized}
-                onCheckedChange={setIsAuthorized}
+                checked={isBiometria}
+                onCheckedChange={setIsBiometria}
                 className="rounded border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
               />
               <Label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Li e concordo com a autorização de acesso aos dados.
+                Usar biometria
               </Label>
             </motion.div>
           </motion.form>
         </CardContent>
         <CardFooter>
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6, duration: 0.5 }} className="w-full">
-            <Button onClick={handleConnect} className="w-full rounded-lg bg-gradient-to-r from-teal-dark to-teal-deep hover:from-teal-deep hover:to-teal-dark transition-all duration-300 transform hover:scale-105">
-              Conectar e Autorizar
+            <Button onClick={handleCriarConta} className="w-full rounded-lg bg-gradient-to-r from-teal-dark to-teal-deep hover:from-teal-deep hover:to-teal-dark transition-all duration-300 transform hover:scale-105">
+              Criar Conta
             </Button>
           </motion.div>
         </CardFooter>
@@ -122,5 +135,5 @@ const OpenFinancePage = () => {
   );
 };
 
-export default OpenFinancePage;
+export default CriarConta;
   

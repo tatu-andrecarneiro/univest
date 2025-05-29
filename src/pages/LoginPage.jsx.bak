@@ -1,37 +1,38 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogIn, UserPlus, Chrome, Computer as MicrosoftIcon } from 'lucide-react';
+import { LogIn, UserPlus, Chrome, Computer as Microsoft } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 const LoginPage = ({ logoUrl }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = (e) => {
+  const handleAnyLogin = (e, type = "form") => {
     e.preventDefault(); 
+    let title = "Login em progresso...";
+    let description = "Redirecionando para a tela inicial.";
+
+    if (type === "Google") {
+      title = "Login com Google";
+      description = "Autenticando com sua conta Google...";
+    } else if (type === "Microsoft") {
+      title = "Login com Microsoft";
+      description = "Autenticando com sua conta Microsoft...";
+    } else if (type === "create") {
+      title = "Criando nova conta...";
+      description = "Redirecionando para a tela inicial.";
+    }
+    
     toast({
-      title: "Login em progresso...",
-      description: "Redirecionando para a tela inicial.",
+      title: title,
+      description: description,
     });
     setTimeout(() => navigate('/home'), 1500);
-  };
-
-  const handleSocialLogin = (provider) => {
-    toast({
-      title: `Login com ${provider}`,
-      description: `Autenticando com sua conta ${provider}...`,
-    });
-    // Passar estado para CreateAccountPage para desabilitar campos
-    setTimeout(() => navigate('/create-account', { state: { socialProvider: provider } }), 1500);
-  };
-  
-  const handleCreateAccountRedirect = () => {
-    navigate('/create-account');
   };
 
 
@@ -62,7 +63,7 @@ const LoginPage = ({ logoUrl }) => {
           </motion.div>
         </CardHeader>
         <CardContent className="space-y-6">
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={(e) => handleAnyLogin(e, "form")} className="space-y-4">
             <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.4, duration: 0.5 }}>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -102,11 +103,11 @@ const LoginPage = ({ logoUrl }) => {
             transition={{ delay: 0.8, duration: 0.5 }}
             className="grid grid-cols-2 gap-4"
           >
-            <Button variant="outline" className="w-full rounded-lg border-teal-dark/70 hover:bg-teal-dark/10 text-foreground" onClick={() => handleSocialLogin('Google')}>
+            <Button variant="outline" className="w-full rounded-lg border-teal-dark/70 hover:bg-teal-dark/10 text-foreground" onClick={(e) => handleAnyLogin(e, 'Google')}>
               <Chrome className="mr-2 h-5 w-5 text-[#4285F4]" /> Google
             </Button>
-            <Button variant="outline" className="w-full rounded-lg border-teal-dark/70 hover:bg-teal-dark/10 text-foreground" onClick={() => handleSocialLogin('Microsoft')}>
-              <MicrosoftIcon className="mr-2 h-5 w-5 text-[#00A4EF]" /> Microsoft
+            <Button variant="outline" className="w-full rounded-lg border-teal-dark/70 hover:bg-teal-dark/10 text-foreground" onClick={(e) => handleAnyLogin(e, 'Microsoft')}>
+              <Microsoft className="mr-2 h-5 w-5 text-[#00A4EF]" /> Microsoft
             </Button>
           </motion.div>
         </CardContent>
@@ -114,7 +115,7 @@ const LoginPage = ({ logoUrl }) => {
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.9, duration: 0.5 }}>
             <p className="text-sm text-muted-foreground">
               Não tem uma conta?{' '}
-              <Button variant="link" onClick={handleCreateAccountRedirect} className="text-teal-light hover:text-teal-dark p-0 h-auto font-semibold">
+              <Button variant="link" onClick={(e) => handleAnyLogin(e, 'create')} className="text-teal-light hover:text-teal-dark p-0 h-auto font-semibold">
                   Crie uma agora <UserPlus className="ml-1 h-4 w-4" />
               </Button>
             </p>
