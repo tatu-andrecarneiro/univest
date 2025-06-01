@@ -1,0 +1,11 @@
+runtime: nodejs20 # Ou a versão do Node.js que você usa
+service: default # Ou um nome de serviço se você tiver múltiplos
+handlers:
+  - url: /static
+    static_dir: dist/static
+  - url: /(.*\.(gif|png|jpg|jpeg|css|js|ico|woff|woff2|ttf|eot|svg))$
+    static_files: build/\1
+    upload: dist/(.*\.(gif|png|jpg|jpeg|css|js|ico|woff|woff2|ttf|eot|svg))$
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html

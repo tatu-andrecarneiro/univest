@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Layout from '@/components/Layout';
 import LoginPage from '@/pages/LoginPage';
+import CriarConta from '@/pages/CriarConta'
 import HomePage from '@/pages/HomePage';
 import OpenFinancePage from '@/pages/OpenFinancePage';
 import SettingsPage from '@/pages/SettingsPage';
@@ -19,6 +20,7 @@ function App() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<LoginPage logoUrl={LOGO_URL} />} />
           <Route path="/home" element={<HomePage logoUrl={LOGO_URL} />} />
+          <Route path="/criarconta" element={<CriarConta />} />
           <Route path="/open-finance" element={<OpenFinancePage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
